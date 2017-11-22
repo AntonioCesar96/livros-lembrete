@@ -9,9 +9,6 @@ public class LivroService {
 
     public List<Livro> buscarLivros() {
         List<Livro> livros = new ArrayList<>();
-        for (int i = 1; i <= 10; i++) {
-            livros.add(new Livro("Nome " + i, i));
-        }
         return livros;
     }
 }

@@ -1,39 +1,54 @@
 package livroslembrete.com.br.livroslembrete.models;
 
-public class Livro {
-    private String nome;
-    private Integer totalPaginas;
-    private String imagemBase64;
+import java.io.Serializable;
 
-    public Livro() {
-    }
+public class Livro implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-    public Livro(String nome, Integer totalPaginas) {
-        this.nome = nome;
-        this.totalPaginas = totalPaginas;
-    }
+	private Long id;
+	private String nome;
+	private Integer totalPaginas;
+	private String urlImagem;
+	private Usuario usuario;
 
-    public String getNome() {
-        return nome;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Integer getTotalPaginas() {
-        return totalPaginas;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    public void setTotalPaginas(Integer totalPaginas) {
-        this.totalPaginas = totalPaginas;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public String getImagemBase64() {
-        return imagemBase64;
-    }
+	public Integer getTotalPaginas() {
+		return totalPaginas;
+	}
 
-    public void setImagemBase64(String imagemBase64) {
-        this.imagemBase64 = imagemBase64;
-    }
+	public void setTotalPaginas(Integer totalPaginas) {
+		this.totalPaginas = totalPaginas;
+	}
+
+	public String getUrlImagem() {
+		return urlImagem;
+	}
+
+	public void setUrlImagem(String urlImagem) {
+		this.urlImagem = urlImagem;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 }
