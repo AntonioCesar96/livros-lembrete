@@ -55,21 +55,31 @@ public class ImageUtils {
             img.getLayoutParams().width = largura;
             img.getLayoutParams().height = altura;
 
-            progress.setVisibility(View.VISIBLE);
+            if (progress != null) {
+                progress.setVisibility(View.VISIBLE);
+            }
             Picasso.with(activity).load(url_img).resize(largura, altura).centerCrop().into(img, new Callback() {
                 @Override
                 public void onSuccess() {
-                    progress.setVisibility(View.GONE);
-
-                    ColorsUtils.changeColorToolbar(img, activity, c);
+                    if (progress != null) {
+                        progress.setVisibility(View.GONE);
+                    }
+                    if (c != null) {
+                        ColorsUtils.changeColorToolbar(img, activity, c);
+                    }
                 }
 
                 @Override
                 public void onError() {
-                    progress.setVisibility(View.GONE);
+                    if (progress != null) {
+                        progress.setVisibility(View.GONE);
+                    }
                 }
             });
-
+        } else {
+            if (progress != null) {
+                progress.setVisibility(View.GONE);
+            }
         }
     }
 

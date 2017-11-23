@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|center_vertical"
                     android:gravity="center|center_vertical"
-                    android:visibility="visible" />
+                    android:visibility="invisible" />
 
             </FrameLayout>
 

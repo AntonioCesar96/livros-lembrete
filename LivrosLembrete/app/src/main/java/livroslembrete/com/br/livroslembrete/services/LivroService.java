@@ -48,6 +48,12 @@ public class LivroService {
         return gson.fromJson(retorno, Livro.class);
     }
 
+    public void delete(Long id) throws Exception {
+        HttpHelper helper = new HttpHelper();
+        helper.setContentType("application/json");
+        helper.doDelete(url + "/" + id);
+    }
+
     public ResponseWithURL postFotoBase64(File file) throws IOException {
         String urlUpload = url + "/imagem-base64";
 

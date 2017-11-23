@@ -21,6 +21,7 @@ import livroslembrete.com.br.livroslembrete.Application;
 import livroslembrete.com.br.livroslembrete.R;
 import livroslembrete.com.br.livroslembrete.activitys.LivroDetalhesActivity;
 import livroslembrete.com.br.livroslembrete.activitys.LivroFormActivity;
+import livroslembrete.com.br.livroslembrete.activitys.MainActivity;
 import livroslembrete.com.br.livroslembrete.adapters.LivroAdapter;
 import livroslembrete.com.br.livroslembrete.models.Livro;
 import livroslembrete.com.br.livroslembrete.services.LivroService;
@@ -181,7 +182,7 @@ public class LivroFragment extends Fragment {
                 Livro l = livros.get(idx);
                 Intent intent = new Intent(getContext(), LivroDetalhesActivity.class);
                 intent.putExtra("livro", l);
-                startActivity(intent);
+                startActivityForResult(intent, MainActivity.RECRIAR_ACTIVITY);
             }
         };
     }

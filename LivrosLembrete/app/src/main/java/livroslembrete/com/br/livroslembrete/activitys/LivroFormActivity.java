@@ -21,6 +21,7 @@ import livroslembrete.com.br.livroslembrete.services.LivroService;
 import livroslembrete.com.br.livroslembrete.utils.AlertUtils;
 import livroslembrete.com.br.livroslembrete.utils.AndroidUtils;
 import livroslembrete.com.br.livroslembrete.utils.CameraUtils;
+import livroslembrete.com.br.livroslembrete.utils.ImageUtils;
 
 public class LivroFormActivity extends BaseActivity {
     private EditText txtNome, txtTotalPaginas;
@@ -29,6 +30,7 @@ public class LivroFormActivity extends BaseActivity {
     private ProgressDialog progressDialog;
     private CameraUtils cameraUtil;
     private File fileImage = null;
+    private Livro livro = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,18 @@ public class LivroFormActivity extends BaseActivity {
                 cameraUtil.abrirCamera(LivroFormActivity.this);
             }
         });
+
+        livro = (Livro) getIntent().getSerializableExtra("livro");
+        Usuario usuario = Application.getInstance().getUsuario();
+        if (livro != null) {
+            livro.setUsuario(usuario);
+            txtNome.setText(livro.getNome());
+            txtTotalPaginas.setText("" + livro.getTotalPaginas());
+            ImageUtils.setImagemIndividual(this, livro.getUrlImagem(), img, null, null);
+        } else {
+            livro = new Livro();
+            livro.setUsuario(usuario);
+        }
     }
 
     public void salvar(View view) {
@@ -70,11 +84,8 @@ public class LivroFormActivity extends BaseActivity {
             return;
         }
 
-        Usuario usuario = Application.getInstance().getUsuario();
-        String nome = txtNome.getText().toString();
-        String totalPaginas = txtTotalPaginas.getText().toString();
-
-        Livro livro = new Livro(nome, Integer.parseInt(totalPaginas), usuario);
+        livro.setNome(txtNome.getText().toString());
+        livro.setTotalPaginas(Integer.parseInt(txtTotalPaginas.getText().toString()));
 
         if (AndroidUtils.isNetworkAvailable(getApplicationContext())) {
             new LivroTask(livro).execute();
@@ -127,8 +138,15 @@ public class LivroFormActivity extends BaseActivity {
         protected void onPostExecute(Livro livro) {
             progressDialog.dismiss();
             if (livro != null && livro.getId() != null) {
-                startActivity(new Intent(LivroFormActivity.this, MainActivity.class));
-                finish();
+                if (LivroFormActivity.this.livro.getId() != null) {
+                    Intent intent = new Intent();
+                    intent.putExtra("livro", livro);
+                    setResult(LivroDetalhesActivity.ATUALIZAR_DADOS, intent);
+                    finish();
+                } else {
+                    startActivity(new Intent(LivroFormActivity.this, MainActivity.class));
+                    finish();
+                }
             } else {
                 AlertUtils.alert(LivroFormActivity.this, "Alerta", "Aconteceu algum erro desconhecido!");
             }
