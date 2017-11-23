@@ -66,6 +66,12 @@ public class LivroAdapter extends RecyclerView.Adapter<LivroAdapter.LivrosViewHo
         return this.livros != null ? this.livros.size() : 0;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+
     public interface LivrosOnClickListener {
         void onClick(LivrosViewHolder holder, int idx);
     }

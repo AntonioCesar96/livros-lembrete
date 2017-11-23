@@ -19,8 +19,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 
 import com.antonio.livroslembreteapi.models.Livro;
 import com.antonio.livroslembreteapi.services.LivroService;
@@ -39,8 +37,9 @@ public class LivroResource {
 	private LivroService livroService;
 
 	@GET
-	public List<Livro> findAll(@QueryParam("page") int page, @QueryParam("size") int size) {
-		return livroService.findAll(new PageRequest(page, size));
+	public List<Livro> findAll(@QueryParam("page") int page, @QueryParam("size") int size,
+			@QueryParam("usuario") Long usuario) {
+		return livroService.findAll(page, size, usuario);
 	}
 
 	@POST

@@ -16,8 +16,20 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!-- Tema PhotoView. -->
+    <style name="AppThemePhotoView" parent="AppTheme">
+
+        <!-- Cor primária do aplicativo -->
+        <item name="colorPrimary">@color/black</item>
+        <!-- Variação escura da cor primária para a status bar e contextual app bars -->
+        <item name="colorPrimaryDark">@color/black</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
     <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

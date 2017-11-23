@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 
 import java.util.List;
 
+import livroslembrete.com.br.livroslembrete.Application;
 import livroslembrete.com.br.livroslembrete.R;
 import livroslembrete.com.br.livroslembrete.activitys.LivroDetalhesActivity;
 import livroslembrete.com.br.livroslembrete.activitys.LivroFormActivity;
@@ -135,7 +136,8 @@ public class LivroFragment extends Fragment {
         @Override
         protected List<Livro> doInBackground(Void... longs) {
             try {
-                return new LivroService().buscarLivros(page, max);
+                Long usuario = Application.getInstance().getUsuario().getId();
+                return new LivroService().buscarLivros(page, max, usuario);
             } catch (Exception e) {
                 return null;
             }
@@ -154,7 +156,6 @@ public class LivroFragment extends Fragment {
                     recyclerView.setAdapter(new LivroAdapter(getContext(), livros, onClickListener()));
                     return;
                 }
-
 
                 if (livros.size() != max) {
                     carregarMais = false;
@@ -179,6 +180,7 @@ public class LivroFragment extends Fragment {
             public void onClick(LivroAdapter.LivrosViewHolder holder, int idx) {
                 Livro l = livros.get(idx);
                 Intent intent = new Intent(getContext(), LivroDetalhesActivity.class);
+                intent.putExtra("livro", l);
                 startActivity(intent);
             }
         };

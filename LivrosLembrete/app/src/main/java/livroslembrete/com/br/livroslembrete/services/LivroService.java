@@ -29,12 +29,12 @@ public class LivroService {
         url = Application.getURL() + "livros";
     }
 
-    public List<Livro> buscarLivros(int page, int max) throws IOException {
-        String json = new HttpHelper().doGet(url + "?page=" + page + "&size=" + max);
+    public List<Livro> buscarLivros(int page, int max, Long usuario) throws IOException {
+        String json = new HttpHelper().doGet(url + "?page=" + page + "&size=" + max + "&usuario=" + usuario);
 
         Type listType = new TypeToken<ArrayList<Livro>>() {
         }.getType();
-        return  new Gson().fromJson(json, listType);
+        return new Gson().fromJson(json, listType);
     }
 
     public Livro save(Livro livro) throws Exception {
