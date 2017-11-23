@@ -23,23 +23,35 @@ import livroslembrete.com.br.livroslembrete.activitys.LivroFormActivity;
 import livroslembrete.com.br.livroslembrete.adapters.LivroAdapter;
 import livroslembrete.com.br.livroslembrete.models.Livro;
 import livroslembrete.com.br.livroslembrete.services.LivroService;
+import livroslembrete.com.br.livroslembrete.utils.AndroidUtils;
 
 public class LivroFragment extends Fragment {
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeLayout;
-    private ProgressBar progress;
     private List<Livro> livros;
+    private ProgressBar progress, progressPag;
+    private int page = 0;
+    private int max = 5;
+    private boolean carregando = false;
+    private boolean carregarMais = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_livro, container, false);
+        View view = inflater.inflate(R.layout.fragment_livros, container, false);
+
         progress = view.findViewById(R.id.progress);
+        progressPag = view.findViewById(R.id.progressPag);
+        progressPag.setVisibility(View.GONE);
+
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
 
         recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);
+
+        recyclerView.addOnScrollListener(onScrollChangeListener(mLayoutManager));
 
         swipeLayout = view.findViewById(R.id.swipeToRefresh);
         swipeLayout.setOnRefreshListener(OnRefreshListener());
@@ -59,12 +71,43 @@ public class LivroFragment extends Fragment {
         return view;
     }
 
+    private RecyclerView.OnScrollListener onScrollChangeListener(final LinearLayoutManager mLayoutManager) {
+        return new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0 && carregarMais) {
+                    int totalItemCount = mLayoutManager.getItemCount();
+                    int lastVisiblesItems = mLayoutManager.findLastVisibleItemPosition();
+
+                    if (totalItemCount > 0) {
+                        totalItemCount -= 1;
+                    }
+
+                    if (!carregando && lastVisiblesItems == totalItemCount) {
+                        page++;
+                        buscarLivros();
+                    }
+                }
+            }
+        };
+    }
+
     private SwipeRefreshLayout.OnRefreshListener OnRefreshListener() {
         return new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                buscarLivros();
-                swipeLayout.setRefreshing(false);
+                if (AndroidUtils.isNetworkAvailable(getContext())) {
+                    page = 0;
+                    carregarMais = true;
+                    buscarLivros();
+                    swipeLayout.setRefreshing(false);
+                } else {
+                    swipeLayout.setRefreshing(false);
+                    snack(recyclerView, "Conexão indisponível");
+                }
             }
         };
     }
@@ -78,14 +121,21 @@ public class LivroFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progress.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.INVISIBLE);
+            carregando = true;
+
+            if (page == 0) {
+                progress.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.INVISIBLE);
+                return;
+            }
+
+            progressPag.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected List<Livro> doInBackground(Void... longs) {
             try {
-                return new LivroService().buscarLivros();
+                return new LivroService().buscarLivros(page, max);
             } catch (Exception e) {
                 return null;
             }
@@ -93,15 +143,32 @@ public class LivroFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<Livro> livros) {
-            progress.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
+            carregando = false;
 
             if (livros != null) {
-                LivroFragment.this.livros = livros;
-                recyclerView.setAdapter(new LivroAdapter(getContext(), livros, onClickListener()));
+                if (page == 0) {
+                    progress.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+
+                    LivroFragment.this.livros = livros;
+                    recyclerView.setAdapter(new LivroAdapter(getContext(), livros, onClickListener()));
+                    return;
+                }
+
+
+                if (livros.size() != max) {
+                    carregarMais = false;
+                }
+
+                LivroAdapter adapter = (LivroAdapter) recyclerView.getAdapter();
+                adapter.updateList(livros);
+                progressPag.setVisibility(View.GONE);
                 return;
             }
 
+            progress.setVisibility(View.GONE);
+            progressPag.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
             snack(recyclerView, "Aconteceu algum erro ao tentar buscar os livros");
         }
     }
@@ -111,7 +178,6 @@ public class LivroFragment extends Fragment {
             @Override
             public void onClick(LivroAdapter.LivrosViewHolder holder, int idx) {
                 Livro l = livros.get(idx);
-
                 Intent intent = new Intent(getContext(), LivroDetalhesActivity.class);
                 startActivity(intent);
             }

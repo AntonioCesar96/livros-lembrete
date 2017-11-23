@@ -11,6 +11,15 @@ public class Livro implements Serializable {
 	private String urlImagem;
 	private Usuario usuario;
 
+	public Livro(String nome, Integer totalPaginas, Usuario usuario) {
+		this.nome = nome;
+		this.totalPaginas = totalPaginas;
+		this.usuario = usuario;
+	}
+
+	public Livro() {
+	}
+
 	public Long getId() {
 		return id;
 	}

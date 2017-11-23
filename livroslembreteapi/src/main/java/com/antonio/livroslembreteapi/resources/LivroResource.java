@@ -1,6 +1,7 @@
 package com.antonio.livroslembreteapi.resources;
 
 import java.net.URISyntaxException;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -38,7 +39,7 @@ public class LivroResource {
 	private LivroService livroService;
 
 	@GET
-	public Page<Livro> findAll(@QueryParam("page") int page, @QueryParam("size") int size) {
+	public List<Livro> findAll(@QueryParam("page") int page, @QueryParam("size") int size) {
 		return livroService.findAll(new PageRequest(page, size));
 	}
 

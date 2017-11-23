@@ -13,11 +13,11 @@
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipeToRefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cacheColorHint="@android:color/transparent"
                 android:clipToPadding="false"
@@ -44,6 +44,17 @@
             android:layout_marginRight="@dimen/fab_margin"
             android:src="@android:drawable/ic_input_add"
             android:tint="#fff000" />
+
+        <ProgressBar
+            android:id="@+id/progressPag"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
+            android:visibility="visible" />
     </FrameLayout>
+
+
 </LinearLayout>
 

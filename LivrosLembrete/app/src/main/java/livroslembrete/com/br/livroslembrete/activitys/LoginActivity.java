@@ -38,8 +38,12 @@ public class LoginActivity extends AppCompatActivity {
         try {
             Usuario usuario = new UsuarioDAO(dataBaseHelper.getConnectionSource()).getUsuario();
             if (usuario != null) {
-                txtEmail.setText(usuario.getEmail());
-                txtSenha.setText(usuario.getSenha());
+                Application.getInstance().setUsuario(usuario);
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
+
+                //txtEmail.setText(usuario.getEmail());
+                //txtSenha.setText(usuario.getSenha());
             }
         } catch (SQLException e) {
             e.printStackTrace();

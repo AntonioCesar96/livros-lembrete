@@ -1,5 +1,7 @@
 package com.antonio.livroslembreteapi.services;
 
+import java.util.List;
+
 import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,9 +17,14 @@ public class LivroService {
 	@Autowired
 	private LivroRepository livroRepository;
 
-	public Page<Livro> findAll(Pageable pageable) {
+	public List<Livro> findAll(Pageable pageable) {
 		Page<Livro> all = livroRepository.findAll(pageable);
-		return all;
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return all.getContent();
 	}
 
 	public Response save(Livro livro) {

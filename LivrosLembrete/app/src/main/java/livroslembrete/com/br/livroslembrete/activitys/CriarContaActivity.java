@@ -36,7 +36,6 @@ public class CriarContaActivity extends AppCompatActivity {
 
     public void criarConta(View view) {
         if (txtNome.getText().toString().trim().length() == 0) {
-            //Toast.makeText(getBaseContext(), "Digite um nome", Toast.LENGTH_SHORT).show();
             txtNome.setError("Digite um nome");
             return;
         }
