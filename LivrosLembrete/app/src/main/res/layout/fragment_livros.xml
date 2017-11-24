@@ -54,7 +54,5 @@
             android:layout_marginTop="12dp"
             android:visibility="visible" />
     </FrameLayout>
-
-
 </LinearLayout>
 

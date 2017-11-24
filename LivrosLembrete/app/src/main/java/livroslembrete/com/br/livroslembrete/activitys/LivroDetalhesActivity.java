@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Menu;
@@ -18,17 +19,26 @@ import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 import livroslembrete.com.br.livroslembrete.Application;
 import livroslembrete.com.br.livroslembrete.R;
 import livroslembrete.com.br.livroslembrete.dao.DataBaseHelper;
+import livroslembrete.com.br.livroslembrete.dao.LembreteDAO;
 import livroslembrete.com.br.livroslembrete.dao.UsuarioDAO;
+import livroslembrete.com.br.livroslembrete.fragments.dialog.LembrarDialog;
+import livroslembrete.com.br.livroslembrete.models.Lembrete;
 import livroslembrete.com.br.livroslembrete.models.Livro;
 import livroslembrete.com.br.livroslembrete.models.Usuario;
 import livroslembrete.com.br.livroslembrete.services.LivroService;
 import livroslembrete.com.br.livroslembrete.services.UsuarioService;
+import livroslembrete.com.br.livroslembrete.utils.AlarmLembreteUtil;
 import livroslembrete.com.br.livroslembrete.utils.AlertUtils;
 import livroslembrete.com.br.livroslembrete.utils.ImageUtils;
 
@@ -59,6 +69,14 @@ public class LivroDetalhesActivity extends BaseActivity {
         fabLembrete.setOnClickListener(clickFab());
 
         livro = (Livro) getIntent().getSerializableExtra("livro");
+        if (livro == null) {
+            Lembrete lembrete = (Lembrete) getIntent().getSerializableExtra("lembrete");
+            livro = new Livro();
+            livro.setId(lembrete.getIdLivro());
+            livro.setNome(lembrete.getNomeLivro());
+            livro.setTotalPaginas(lembrete.getTotalPaginasLivro());
+            livro.setUrlImagem(lembrete.getUrlImagemLivro());
+        }
         preencherDadosLivro();
     }
 
@@ -77,8 +95,33 @@ public class LivroDetalhesActivity extends BaseActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Adicionar lembrete", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                try {
+                    final LembreteDAO dao = new LembreteDAO(Application.getInstance().getDataBaseHelper().getConnectionSource());
+
+                    LembrarDialog.show(getSupportFragmentManager(), dao.getById(livro.getId()), new LembrarDialog.Callback() {
+                        @Override
+                        public void onLembrar(Calendar dataHora) {
+                            Lembrete lembrete = new Lembrete();
+                            lembrete.setDataHora(dataHora);
+                            lembrete.setIdLivro(livro.getId());
+                            lembrete.setNomeLivro(livro.getNome());
+                            lembrete.setTotalPaginasLivro(livro.getTotalPaginas());
+                            lembrete.setUrlImagemLivro(livro.getUrlImagem());
+                            lembrete.setDiasSemana(new String[]{});
+                            dao.save(lembrete);
+
+                            Toast.makeText(getApplicationContext(), new SimpleDateFormat("HH:mm - dd/MM/yyyy",
+                                    Locale.getDefault()).format(lembrete.getDataHora().getTime()), Toast.LENGTH_SHORT).show();
+                            AlarmLembreteUtil alarmEventoUtil = new AlarmLembreteUtil(getApplicationContext());
+                            alarmEventoUtil.agendarAlarm(lembrete.getIdLivro(), lembrete.getDataHora().getTimeInMillis());
+
+                        }
+                    });
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+
             }
         };
     }

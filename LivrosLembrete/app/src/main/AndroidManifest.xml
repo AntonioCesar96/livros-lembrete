@@ -16,6 +16,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
 
+        <receiver
+            android:name=".notification.LembreteNotificationReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="NOTIFICAR_LEMBRETE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".notification.LembreteNotificationService"></service>
+
         <activity
             android:name=".activitys.MainActivity"
             android:label="Livros" />

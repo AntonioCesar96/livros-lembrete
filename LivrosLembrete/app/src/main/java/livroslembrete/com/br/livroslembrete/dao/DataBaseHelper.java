@@ -9,6 +9,7 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 
+import livroslembrete.com.br.livroslembrete.models.Lembrete;
 import livroslembrete.com.br.livroslembrete.models.Livro;
 import livroslembrete.com.br.livroslembrete.models.Usuario;
 
@@ -24,7 +25,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase sd, ConnectionSource cs) {
         try {
             TableUtils.createTable(cs, Usuario.class);
-            //TableUtils.createTable(cs, Livro.class);
+            TableUtils.createTable(cs, Lembrete.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -34,7 +35,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
     public void onUpgrade(SQLiteDatabase sd, ConnectionSource cs, int oldVersion, int newVersion) {
         try {
             TableUtils.dropTable(cs, Usuario.class, true);
-            //TableUtils.dropTable(cs, Livro.class, true);
+            TableUtils.dropTable(cs, Lembrete.class, true);
 
             onCreate(sd, cs);
         } catch (SQLException e) {

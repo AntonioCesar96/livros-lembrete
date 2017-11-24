@@ -155,6 +155,9 @@ public class LivroFragment extends Fragment {
 
                     LivroFragment.this.livros = livros;
                     recyclerView.setAdapter(new LivroAdapter(getContext(), livros, onClickListener()));
+                    if(livros.size() == 0) {
+                        snack(recyclerView, "Não há livros");
+                    }
                     return;
                 }
 

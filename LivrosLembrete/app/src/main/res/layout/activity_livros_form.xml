@@ -144,11 +144,11 @@
                             android:layout_gravity="right"
                             android:layout_weight="1"
                             android:background="@drawable/shape"
+                            android:textColor="#fff"
                             android:onClick="salvar"
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp"
                             android:text="Salvar"
-                            android:textColor="#fff"
                             card_view:cardElevation="6dp" />
                     </LinearLayout>
                 </LinearLayout>
