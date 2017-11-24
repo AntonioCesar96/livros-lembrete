@@ -3,6 +3,7 @@ package livroslembrete.com.br.livroslembrete.activitys;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -21,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ import livroslembrete.com.br.livroslembrete.models.Livro;
 import livroslembrete.com.br.livroslembrete.models.Usuario;
 import livroslembrete.com.br.livroslembrete.services.LivroService;
 import livroslembrete.com.br.livroslembrete.services.UsuarioService;
+import livroslembrete.com.br.livroslembrete.tasks.DownloadImagemTask;
 import livroslembrete.com.br.livroslembrete.utils.AlarmLembreteUtil;
 import livroslembrete.com.br.livroslembrete.utils.AlertUtils;
 import livroslembrete.com.br.livroslembrete.utils.ImageUtils;
@@ -51,6 +54,7 @@ public class LivroDetalhesActivity extends BaseActivity {
     private ProgressBar progressBar;
     private FloatingActionButton fabLembrete;
     private Livro livro;
+    private File imagemShare;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,8 +116,8 @@ public class LivroDetalhesActivity extends BaseActivity {
 
                             Toast.makeText(getApplicationContext(), new SimpleDateFormat("HH:mm - dd/MM/yyyy",
                                     Locale.getDefault()).format(lembrete.getDataHora().getTime()), Toast.LENGTH_SHORT).show();
-                            AlarmLembreteUtil alarmEventoUtil = new AlarmLembreteUtil(getApplicationContext());
-                            alarmEventoUtil.agendarAlarm(lembrete.getIdLivro(), lembrete.getDataHora().getTimeInMillis());
+                            AlarmLembreteUtil alarm = new AlarmLembreteUtil(getApplicationContext());
+                            alarm.agendarAlarm(lembrete.getIdLivro(), lembrete.getDataHora().getTimeInMillis());
 
                         }
                     });
@@ -156,8 +160,35 @@ public class LivroDetalhesActivity extends BaseActivity {
             case R.id.action_delete:
                 abrirDialogExcluir();
                 break;
+            case R.id.action_share:
+                new DownloadImagemTask(this, onCallbackDownloadImagem()).execute(livro.getUrlImagem());
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private DownloadImagemTask.CallbackDownloadImagem onCallbackDownloadImagem() {
+        return new DownloadImagemTask.CallbackDownloadImagem() {
+            @Override
+            public void onCallbackDownloadImagem(File imagem) {
+                imagemShare = imagem;
+                Uri uri = Uri.fromFile(imagem);
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, livro.getNome());
+                shareIntent.setType("image/*");
+                startActivity(Intent.createChooser(shareIntent, "Compartilhar Livro"));
+            }
+        };
+    }
+
+    @Override
+    public void finish() {
+        if (imagemShare != null && imagemShare.exists()) {
+            imagemShare.delete();
+        }
+        super.finish();
     }
 
     private void abrirDialogExcluir() {

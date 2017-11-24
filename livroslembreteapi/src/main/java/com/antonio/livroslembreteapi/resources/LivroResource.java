@@ -37,6 +37,12 @@ public class LivroResource {
 	private LivroService livroService;
 
 	@GET
+	@Path("/teste")
+	public String teste() {
+		return "teste";
+	}
+
+	@GET
 	public List<Livro> findAll(@QueryParam("page") int page, @QueryParam("size") int size,
 			@QueryParam("usuario") Long usuario) {
 		return livroService.findAll(page, size, usuario);

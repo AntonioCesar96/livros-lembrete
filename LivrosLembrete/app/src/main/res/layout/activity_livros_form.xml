@@ -42,7 +42,7 @@
 
                     <ImageView
                         android:id="@+id/img"
-                        android:background="@color/transparent"
+                        android:src="@drawable/image_not_found"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:scaleType="centerCrop" />

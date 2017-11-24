@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 
 public class ImageUtils {
 
-    public static void setImagemFeed(final Context context, String url_img, final ImageView img, final LinearLayout imgEventoWrapper, final ProgressBar progress) {
+    public static void setImagemFeed(final Context context, String url_img, final ImageView img, final LinearLayout imgWrapper, final ProgressBar progress) {
 
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         final int largura = metrics.widthPixels;
@@ -35,11 +35,11 @@ public class ImageUtils {
                 @Override
                 public void onError() {
                     progress.setVisibility(View.GONE);
-                    imgEventoWrapper.setVisibility(View.GONE);
+                    imgWrapper.setVisibility(View.GONE);
                 }
             });
         } else {
-            imgEventoWrapper.setVisibility(View.GONE);
+            imgWrapper.setVisibility(View.GONE);
         }
     }
 

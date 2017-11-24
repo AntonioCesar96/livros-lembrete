@@ -12,9 +12,8 @@ import livroslembrete.com.br.livroslembrete.models.Usuario;
 import livroslembrete.com.br.livroslembrete.dao.DataBaseHelper;
 
 public class Application extends android.app.Application {
-
-    private static String URL = "http://192.168.42.246:8080/livroslembrete/api/";
-    //private static String URL = "https://eventostest.herokuapp.com/rest/";
+    //private static String URL = "http://192.168.42.246:8080/livroslembrete/api/";
+    private static String URL = "https://livroslembrete.herokuapp.com/";
     private static Application instance = null;
     private Usuario usuario = null;
     private DataBaseHelper dataBaseHelper = null;

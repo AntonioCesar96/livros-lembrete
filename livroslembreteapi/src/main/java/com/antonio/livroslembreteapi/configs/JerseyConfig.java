@@ -10,7 +10,8 @@ import com.antonio.livroslembreteapi.resources.UsuarioResource;
 public class JerseyConfig extends ResourceConfig {
 	public JerseyConfig() {
 		register(CORSFilter.class);
-		packages("com.antonio.livroslembreteapi.resources");
-		// register(UsuarioResource.class);
+		//packages("com.antonio.livroslembreteapi.resources");
+		register(UsuarioResource.class);
+		register(LivroResource.class);
 	}
 }

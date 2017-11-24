@@ -85,16 +85,16 @@ public class LembretesFragment extends Fragment {
                 try {
                     DataBaseHelper dataBaseHelper = Application.getInstance().getDataBaseHelper();
                     LembreteDAO dao = new LembreteDAO(dataBaseHelper.getConnectionSource());
-                    AlarmLembreteUtil alarmEventoUtil = new AlarmLembreteUtil(getActivity());
+                    AlarmLembreteUtil alarmUtil = new AlarmLembreteUtil(getActivity());
 
                     if (isChecked) {
                         dao.deletar(lembrete.getIdLivro());
-                        alarmEventoUtil.cancelarAlarm(lembrete.getIdLivro());
+                        alarmUtil.cancelarAlarm(lembrete.getIdLivro());
                         return;
                     }
 
                     dao.save(lembrete);
-                    alarmEventoUtil.agendarAlarm(lembrete.getIdLivro(), lembrete.getDataHora().getTimeInMillis());
+                    alarmUtil.agendarAlarm(lembrete.getIdLivro(), lembrete.getDataHora().getTimeInMillis());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
