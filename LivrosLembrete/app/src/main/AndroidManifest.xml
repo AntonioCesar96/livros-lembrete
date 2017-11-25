@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme.NoActionBar">
 
         <receiver
-            android:name=".notification.LembreteNotificationReceiver"
+            android:name=".model.notification.LembreteNotificationReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="NOTIFICAR_LEMBRETE" />
@@ -25,12 +25,12 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".notification.LembreteNotificationService"></service>
+        <service android:name=".model.notification.LembreteNotificationService"></service>
 
         <activity
-            android:name=".activitys.MainActivity"
+            android:name=".view.activitys.MainActivity"
             android:label="Livros" />
-        <activity android:name=".activitys.LoginActivity">
+        <activity android:name=".view.activitys.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,26 +38,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activitys.LivroFormActivity"
+            android:name=".view.activitys.LivroFormActivity"
             android:label="Livro Cadastro"
-            android:parentActivityName=".activitys.MainActivity">
+            android:parentActivityName=".view.activitys.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activitys.MainActivity" />
+                android:value=".view.activitys.MainActivity" />
         </activity>
         <activity
-            android:name=".activitys.LivroDetalhesActivity"
+            android:name=".view.activitys.LivroDetalhesActivity"
             android:label="@string/title_activity_livro_detalhes"
-            android:parentActivityName=".activitys.MainActivity">
+            android:parentActivityName=".view.activitys.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activitys.MainActivity" />
+                android:value=".view.activitys.MainActivity" />
         </activity>
-        <activity android:name=".activitys.CriarContaActivity">
+        <activity android:name=".view.activitys.CriarContaViewActivity">
 
         </activity>
 
-        <activity android:name=".activitys.PhotoViewActivity" android:theme="@style/AppThemePhotoView"></activity>
+        <activity android:name=".view.activitys.VizualizarImageActivity" android:theme="@style/AppThemePhotoView"></activity>
     </application>
 
 </manifest>

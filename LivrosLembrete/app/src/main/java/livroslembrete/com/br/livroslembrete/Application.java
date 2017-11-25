@@ -8,8 +8,8 @@ import android.support.annotation.NonNull;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 
-import livroslembrete.com.br.livroslembrete.models.Usuario;
-import livroslembrete.com.br.livroslembrete.dao.DataBaseHelper;
+import livroslembrete.com.br.livroslembrete.model.domain.Usuario;
+import livroslembrete.com.br.livroslembrete.model.dao.DataBaseHelper;
 
 public class Application extends android.app.Application {
     //private static String URL = "http://192.168.42.246:8080/livroslembrete/api/";

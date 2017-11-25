@@ -62,6 +62,7 @@
 
                             <ImageButton
                                 android:id="@+id/btnCamera"
+                                android:onClick="openCamera"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:background="@drawable/round_button"
@@ -70,6 +71,7 @@
 
                             <ImageButton
                                 android:id="@+id/btnGaleria"
+                                android:onClick="openGaleria"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_marginTop="2dp"
@@ -145,7 +147,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/shape"
                             android:textColor="#fff"
-                            android:onClick="salvar"
+                            android:onClick="save"
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp"
                             android:text="Salvar"

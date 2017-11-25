@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    tools:context="livroslembrete.com.br.livroslembrete.activitys.LoginActivity">
+    tools:context="livroslembrete.com.br.livroslembrete.view.activitys.LoginActivity">
 
     <ScrollView
         android:layout_width="match_parent"

@@ -27,6 +27,7 @@
 
                 <ImageView
                     android:id="@+id/appBarImg"
+                    android:onClick="openImage"
                     android:layout_width="match_parent"
                     android:layout_height="280dp"
                     android:fitsSystemWindows="true"
@@ -63,6 +64,7 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
+        android:onClick="criarAlarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
