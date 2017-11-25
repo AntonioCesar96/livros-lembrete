@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Locale;
 
 import livroslembrete.com.br.livroslembrete.R;
-import livroslembrete.com.br.livroslembrete.model.domain.Lembrete;
+import livroslembrete.com.br.livroslembrete.domain.Lembrete;
 
 public class LembreteAdapter extends RecyclerView.Adapter<LembreteAdapter.LembretesViewHolder> {
     private final List<Lembrete> lembretes;

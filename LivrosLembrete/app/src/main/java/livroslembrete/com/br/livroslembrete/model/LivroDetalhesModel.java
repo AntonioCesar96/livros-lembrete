@@ -9,9 +9,9 @@ import java.io.File;
 
 import livroslembrete.com.br.livroslembrete.view.activitys.MainActivity;
 import livroslembrete.com.br.livroslembrete.presenter.LivroDetalhesPresenter;
-import livroslembrete.com.br.livroslembrete.model.rest.LivroService;
-import livroslembrete.com.br.livroslembrete.model.utils.IOUtils;
-import livroslembrete.com.br.livroslembrete.model.utils.SDCardUtils;
+import livroslembrete.com.br.livroslembrete.rest.LivroService;
+import livroslembrete.com.br.livroslembrete.utils.IOUtils;
+import livroslembrete.com.br.livroslembrete.utils.SDCardUtils;
 
 public class LivroDetalhesModel {
     private LivroDetalhesPresenter presenter;

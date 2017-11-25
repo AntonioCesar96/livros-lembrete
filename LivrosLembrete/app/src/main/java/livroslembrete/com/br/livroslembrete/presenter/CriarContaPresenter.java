@@ -1,8 +1,8 @@
 package livroslembrete.com.br.livroslembrete.presenter;
 
 import livroslembrete.com.br.livroslembrete.model.CriarContaModel;
-import livroslembrete.com.br.livroslembrete.model.domain.Usuario;
-import livroslembrete.com.br.livroslembrete.model.utils.AndroidUtils;
+import livroslembrete.com.br.livroslembrete.domain.Usuario;
+import livroslembrete.com.br.livroslembrete.utils.AndroidUtils;
 import livroslembrete.com.br.livroslembrete.view.BaseView;
 
 public class CriarContaPresenter extends BasePresenter {

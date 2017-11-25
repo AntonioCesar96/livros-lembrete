@@ -7,11 +7,11 @@ import java.sql.SQLException;
 
 import livroslembrete.com.br.livroslembrete.Application;
 import livroslembrete.com.br.livroslembrete.view.activitys.MainActivity;
-import livroslembrete.com.br.livroslembrete.model.dao.DataBaseHelper;
-import livroslembrete.com.br.livroslembrete.model.dao.UsuarioDAO;
-import livroslembrete.com.br.livroslembrete.model.domain.Usuario;
+import livroslembrete.com.br.livroslembrete.dao.DataBaseHelper;
+import livroslembrete.com.br.livroslembrete.dao.UsuarioDAO;
+import livroslembrete.com.br.livroslembrete.domain.Usuario;
 import livroslembrete.com.br.livroslembrete.presenter.CriarContaPresenter;
-import livroslembrete.com.br.livroslembrete.model.rest.UsuarioService;
+import livroslembrete.com.br.livroslembrete.rest.UsuarioService;
 
 public class CriarContaModel {
     private CriarContaPresenter presenter;

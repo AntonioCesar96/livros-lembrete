@@ -11,10 +11,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import livroslembrete.com.br.livroslembrete.R;
-import livroslembrete.com.br.livroslembrete.model.domain.Lembrete;
-import livroslembrete.com.br.livroslembrete.model.domain.Livro;
+import livroslembrete.com.br.livroslembrete.domain.Lembrete;
+import livroslembrete.com.br.livroslembrete.domain.Livro;
 import livroslembrete.com.br.livroslembrete.presenter.LivroDetalhesPresenter;
-import livroslembrete.com.br.livroslembrete.model.utils.ImageUtils;
+import livroslembrete.com.br.livroslembrete.utils.ImageUtils;
 import livroslembrete.com.br.livroslembrete.view.LivroDetalhesView;
 
 public class LivroDetalhesActivity extends BaseActivity implements LivroDetalhesView {

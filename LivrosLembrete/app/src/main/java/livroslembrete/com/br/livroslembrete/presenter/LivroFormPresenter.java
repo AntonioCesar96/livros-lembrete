@@ -4,9 +4,9 @@ import java.io.File;
 
 import livroslembrete.com.br.livroslembrete.Application;
 import livroslembrete.com.br.livroslembrete.model.LivroFormModel;
-import livroslembrete.com.br.livroslembrete.model.domain.Livro;
-import livroslembrete.com.br.livroslembrete.model.domain.Usuario;
-import livroslembrete.com.br.livroslembrete.model.utils.AndroidUtils;
+import livroslembrete.com.br.livroslembrete.domain.Livro;
+import livroslembrete.com.br.livroslembrete.domain.Usuario;
+import livroslembrete.com.br.livroslembrete.utils.AndroidUtils;
 import livroslembrete.com.br.livroslembrete.view.LivroFormView;
 
 public class LivroFormPresenter extends BasePresenter {

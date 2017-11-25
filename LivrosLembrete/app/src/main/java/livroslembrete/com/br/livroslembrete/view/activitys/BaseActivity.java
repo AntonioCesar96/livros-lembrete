@@ -23,12 +23,12 @@ import java.sql.SQLException;
 
 import livroslembrete.com.br.livroslembrete.Application;
 import livroslembrete.com.br.livroslembrete.R;
-import livroslembrete.com.br.livroslembrete.model.dao.DataBaseHelper;
-import livroslembrete.com.br.livroslembrete.model.dao.UsuarioDAO;
+import livroslembrete.com.br.livroslembrete.dao.DataBaseHelper;
+import livroslembrete.com.br.livroslembrete.dao.UsuarioDAO;
 import livroslembrete.com.br.livroslembrete.view.fragments.LembretesFragment;
 import livroslembrete.com.br.livroslembrete.view.fragments.LivroFragment;
-import livroslembrete.com.br.livroslembrete.model.domain.Usuario;
-import livroslembrete.com.br.livroslembrete.model.utils.AlertUtils;
+import livroslembrete.com.br.livroslembrete.domain.Usuario;
+import livroslembrete.com.br.livroslembrete.utils.AlertUtils;
 import livroslembrete.com.br.livroslembrete.view.BaseView;
 
 public class BaseActivity extends AppCompatActivity implements BaseView {

@@ -14,12 +14,12 @@ import java.util.Locale;
 
 import livroslembrete.com.br.livroslembrete.Application;
 import livroslembrete.com.br.livroslembrete.R;
-import livroslembrete.com.br.livroslembrete.model.dao.LembreteDAO;
-import livroslembrete.com.br.livroslembrete.view.fragments.dialog.LembrarDialog;
+import livroslembrete.com.br.livroslembrete.dao.LembreteDAO;
+import livroslembrete.com.br.livroslembrete.view.fragments.dialog.CriarLembreteDialog;
 import livroslembrete.com.br.livroslembrete.model.LivroDetalhesModel;
-import livroslembrete.com.br.livroslembrete.model.domain.Lembrete;
-import livroslembrete.com.br.livroslembrete.model.domain.Livro;
-import livroslembrete.com.br.livroslembrete.model.utils.AlarmLembreteUtil;
+import livroslembrete.com.br.livroslembrete.domain.Lembrete;
+import livroslembrete.com.br.livroslembrete.domain.Livro;
+import livroslembrete.com.br.livroslembrete.utils.AlarmLembreteUtil;
 import livroslembrete.com.br.livroslembrete.view.LivroDetalhesView;
 import livroslembrete.com.br.livroslembrete.view.activitys.LivroFormActivity;
 import livroslembrete.com.br.livroslembrete.view.activitys.VizualizarImageActivity;
@@ -40,9 +40,9 @@ public class LivroDetalhesPresenter extends BasePresenter {
     public void criarAlarm(FragmentManager supportFragmentManager) {
         Lembrete lembrete = getLembreteByLivro();
 
-        LembrarDialog.show(supportFragmentManager, lembrete, new LembrarDialog.Callback() {
+        CriarLembreteDialog.show(supportFragmentManager, lembrete, new CriarLembreteDialog.Callback() {
             @Override
-            public void onLembrar(Calendar dataHora) {
+            public void callback(Calendar dataHora) {
                 LembreteDAO dao = null;
                 try {
                     dao = new LembreteDAO(Application.getInstance().getDataBaseHelper().getConnectionSource());

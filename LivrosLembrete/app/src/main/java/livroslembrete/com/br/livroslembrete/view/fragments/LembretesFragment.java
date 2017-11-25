@@ -16,21 +16,27 @@ import java.util.List;
 
 import livroslembrete.com.br.livroslembrete.Application;
 import livroslembrete.com.br.livroslembrete.R;
+import livroslembrete.com.br.livroslembrete.domain.Livro;
+import livroslembrete.com.br.livroslembrete.presenter.LembretesListaPresenter;
+import livroslembrete.com.br.livroslembrete.view.LembretesView;
 import livroslembrete.com.br.livroslembrete.view.adapters.LembreteAdapter;
-import livroslembrete.com.br.livroslembrete.model.dao.DataBaseHelper;
-import livroslembrete.com.br.livroslembrete.model.dao.LembreteDAO;
-import livroslembrete.com.br.livroslembrete.model.domain.Lembrete;
-import livroslembrete.com.br.livroslembrete.model.utils.AlarmLembreteUtil;
+import livroslembrete.com.br.livroslembrete.dao.DataBaseHelper;
+import livroslembrete.com.br.livroslembrete.dao.LembreteDAO;
+import livroslembrete.com.br.livroslembrete.domain.Lembrete;
+import livroslembrete.com.br.livroslembrete.utils.AlarmLembreteUtil;
+import livroslembrete.com.br.livroslembrete.view.adapters.LivroAdapter;
 
-public class LembretesFragment extends Fragment {
+public class LembretesFragment extends Fragment implements LembretesView {
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeLayout;
-    private List<Lembrete> lembretes;
+    private LembretesListaPresenter presenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lembretes, container, false);
+
+        presenter = new LembretesListaPresenter(this);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
 
@@ -41,12 +47,9 @@ public class LembretesFragment extends Fragment {
 
         swipeLayout = view.findViewById(R.id.swipeToRefresh);
         swipeLayout.setOnRefreshListener(OnRefreshListener());
-        swipeLayout.setColorSchemeResources(
-                R.color.refresh_progress_1,
-                R.color.refresh_progress_2,
-                R.color.refresh_progress_3);
+        swipeLayout.setColorSchemeResources(R.color.refresh_progress_1, R.color.refresh_progress_2, R.color.refresh_progress_3);
 
-        buscarLembretes();
+        presenter.buscarLembretes();
         return view;
     }
 
@@ -54,54 +57,30 @@ public class LembretesFragment extends Fragment {
         return new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                buscarLembretes();
+                presenter.buscarLembretes();
                 swipeLayout.setRefreshing(false);
             }
         };
     }
 
-    private void buscarLembretes() {
-        try {
-            DataBaseHelper dataBaseHelper = Application.getInstance().getDataBaseHelper();
-            LembreteDAO dao = new LembreteDAO(dataBaseHelper.getConnectionSource());
-            lembretes = dao.queryForAll();
-            recyclerView.setAdapter(new LembreteAdapter(getContext(), lembretes, onClickListener()));
-            if (lembretes.size() == 0) {
-                snack(recyclerView, "Não há lembretes");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    @Override
+    public void showSnack(String msg) {
+        Snackbar.make(recyclerView, msg, Snackbar.LENGTH_LONG).setAction("Ok", null).show();
     }
 
-    private LembreteAdapter.OnCheckedChangeListener onClickListener() {
-
-        return new LembreteAdapter.OnCheckedChangeListener() {
+    @Override
+    public void setAdapter(List<Lembrete> lembretes) {
+        recyclerView.setAdapter(new LembreteAdapter(getContext(), lembretes, new LembreteAdapter.OnCheckedChangeListener() {
             @Override
             public void onChange(boolean isChecked, int idx) {
-                Lembrete lembrete = lembretes.get(idx);
-
-                try {
-                    DataBaseHelper dataBaseHelper = Application.getInstance().getDataBaseHelper();
-                    LembreteDAO dao = new LembreteDAO(dataBaseHelper.getConnectionSource());
-                    AlarmLembreteUtil alarmUtil = new AlarmLembreteUtil(getActivity());
-
-                    if (isChecked) {
-                        dao.deletar(lembrete.getIdLivro());
-                        alarmUtil.cancelarAlarm(lembrete.getIdLivro());
-                        return;
-                    }
-
-                    dao.save(lembrete);
-                    alarmUtil.agendarAlarm(lembrete.getIdLivro(), lembrete.getDataHora().getTimeInMillis());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                presenter.onChange(isChecked, idx);
             }
-        };
+        }));
     }
 
-    protected void snack(View view, String msg) {
-        Snackbar.make(view, msg, Snackbar.LENGTH_LONG).setAction("Ok", null).show();
+    @Override
+    public void updateAdapter(List<Lembrete> lembretes) {
+        LembreteAdapter adapter = (LembreteAdapter) recyclerView.getAdapter();
+        adapter.updateList(lembretes);
     }
 }

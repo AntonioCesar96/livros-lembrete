@@ -1,0 +1,95 @@
+package livroslembrete.com.br.livroslembrete.utils;
+
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
+import android.os.StrictMode;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
+public class CameraUtils {
+    private static final int SELECT_PICTURE = 1;
+    private static final int CAMERA = 2;
+    private AppCompatActivity activity;
+    private File fileImage;
+
+    public CameraUtils(AppCompatActivity activity) {
+        this.activity = activity;
+    }
+
+    public void abrirGaleria(AppCompatActivity activity) {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        activity.startActivityForResult(Intent.createChooser(intent, "Selecione uma imagem"), SELECT_PICTURE);
+    }
+
+    public void abrirCamera(AppCompatActivity activity) {
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
+        fileImage = SDCardUtils.getPrivateFile(activity, "image_temp.jpg", Environment.DIRECTORY_PICTURES);
+
+        Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileImage));
+        activity.startActivityForResult(i, CAMERA);
+    }
+
+    public File pegarImagem(int requestCode, int resultCode, Intent data, ImageView imgView) {
+        // Imagem da Galeria
+        if (resultCode == AppCompatActivity.RESULT_OK && requestCode == SELECT_PICTURE) {
+
+            try {
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor cursor = activity.getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
+
+                fileImage = SDCardUtils.getPrivateFile(activity, "image_temp.jpg", Environment.DIRECTORY_PICTURES);
+                new ImageCompressionUtils(activity).compressImage(picturePath, fileImage.getAbsolutePath());
+
+                Bitmap bitmap = ImageResizeUtils.getResizedImage(Uri.fromFile(fileImage), 0, 0, false);
+                imgView.setImageBitmap(bitmap);
+
+                return fileImage;
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                try {
+                    fileImage = SDCardUtils.getPrivateFile(activity, "image_temp.jpg", Environment.DIRECTORY_PICTURES);
+                    InputStream in = activity.getContentResolver().openInputStream(data.getData());
+                    IOUtils.writeBytes(fileImage, IOUtils.toBytes(in));
+
+                    new ImageCompressionUtils(activity).compressImage(fileImage.getAbsolutePath(), fileImage.getAbsolutePath());
+                    imgView.setImageBitmap(ImageResizeUtils.getResizedImage(Uri.fromFile(fileImage), 0, 0, false));
+
+                    return fileImage;
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+
+        if (resultCode == AppCompatActivity.RESULT_OK && requestCode == CAMERA && fileImage != null) {
+
+            if (fileImage.exists()) {
+                new ImageCompressionUtils(activity).compressImage(fileImage.getAbsolutePath(), fileImage.getAbsolutePath());
+
+                Bitmap bitmap = ImageResizeUtils.getResizedImage(Uri.fromFile(fileImage), 0, 0, false);
+                imgView.setImageBitmap(bitmap);
+                return fileImage;
+            }
+        }
+        return fileImage;
+    }
+}

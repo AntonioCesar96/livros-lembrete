@@ -1,7 +1,7 @@
 package livroslembrete.com.br.livroslembrete.presenter;
 
 import livroslembrete.com.br.livroslembrete.model.LoginModel;
-import livroslembrete.com.br.livroslembrete.model.utils.AndroidUtils;
+import livroslembrete.com.br.livroslembrete.utils.AndroidUtils;
 import livroslembrete.com.br.livroslembrete.view.BaseView;
 
 public class LoginPresenter extends BasePresenter {

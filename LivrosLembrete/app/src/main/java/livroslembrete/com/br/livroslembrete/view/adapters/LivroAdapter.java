@@ -13,8 +13,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import livroslembrete.com.br.livroslembrete.R;
-import livroslembrete.com.br.livroslembrete.model.domain.Livro;
-import livroslembrete.com.br.livroslembrete.model.utils.ImageUtils;
+import livroslembrete.com.br.livroslembrete.domain.Livro;
+import livroslembrete.com.br.livroslembrete.utils.ImageUtils;
 
 public class LivroAdapter extends RecyclerView.Adapter<LivroAdapter.LivrosViewHolder> {
 

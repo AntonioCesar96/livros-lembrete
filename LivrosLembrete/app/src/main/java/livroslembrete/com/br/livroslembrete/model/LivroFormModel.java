@@ -8,10 +8,10 @@ import java.io.File;
 
 import livroslembrete.com.br.livroslembrete.presenter.LivroDetalhesPresenter;
 import livroslembrete.com.br.livroslembrete.view.activitys.MainActivity;
-import livroslembrete.com.br.livroslembrete.model.domain.Livro;
-import livroslembrete.com.br.livroslembrete.model.domain.ResponseWithURL;
+import livroslembrete.com.br.livroslembrete.domain.Livro;
+import livroslembrete.com.br.livroslembrete.domain.RespostaUploadImagem;
 import livroslembrete.com.br.livroslembrete.presenter.LivroFormPresenter;
-import livroslembrete.com.br.livroslembrete.model.rest.LivroService;
+import livroslembrete.com.br.livroslembrete.rest.LivroService;
 
 public class LivroFormModel {
     private LivroFormPresenter presenter;
@@ -48,9 +48,9 @@ public class LivroFormModel {
 
             try {
                 if (fileImage != null && fileImage.exists()) {
-                    ResponseWithURL responseWithURL = service.postFotoBase64(fileImage);
-                    if (responseWithURL != null && responseWithURL.isOk()) {
-                        livro.setUrlImagem(responseWithURL.getUrl());
+                    RespostaUploadImagem respostaUploadImagem = service.postFotoBase64(fileImage);
+                    if (respostaUploadImagem != null && respostaUploadImagem.isOk()) {
+                        livro.setUrlImagem(respostaUploadImagem.getUrl());
                     }
                 }
                 return service.save(livro);

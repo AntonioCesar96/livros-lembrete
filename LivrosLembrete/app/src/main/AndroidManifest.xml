@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme.NoActionBar">
 
         <receiver
-            android:name=".model.notification.LembreteNotificationReceiver"
+            android:name=".notification.LembreteNotificationReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="NOTIFICAR_LEMBRETE" />
@@ -25,7 +25,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".model.notification.LembreteNotificationService"></service>
+        <service android:name=".notification.LembreteNotificationService"></service>
 
         <activity
             android:name=".view.activitys.MainActivity"
