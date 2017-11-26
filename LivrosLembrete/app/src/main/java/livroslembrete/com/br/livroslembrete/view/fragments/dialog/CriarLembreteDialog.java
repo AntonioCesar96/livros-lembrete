@@ -69,7 +69,6 @@ public class CriarLembreteDialog extends DialogFragment implements CriarLembrete
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_lembrar, container, false);
         view.findViewById(R.id.btLembrar).setOnClickListener(onClickSalvarLembrete());
-        tData = view.findViewById(R.id.tDataInicio);
         tHora = view.findViewById(R.id.tHoraInicio);
 
         dom = view.findViewById(R.id.dom);

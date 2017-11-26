@@ -28,7 +28,7 @@ public class CriarLembretePresenter {
 
     public void setDataHora(Lembrete lembrete) {
         if (lembrete != null) {
-            view.updateData(new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(lembrete.getDataHora().getTime()));
+            //view.updateData(new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(lembrete.getDataHora().getTime()));
             view.updateHora(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(lembrete.getDataHora().getTime()));
             dataHora = lembrete.getDataHora();
         } else {
