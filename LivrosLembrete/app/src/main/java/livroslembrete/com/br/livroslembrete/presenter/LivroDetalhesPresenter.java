@@ -9,12 +9,16 @@ import android.support.v7.app.AlertDialog;
 import java.io.File;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import livroslembrete.com.br.livroslembrete.Application;
 import livroslembrete.com.br.livroslembrete.R;
 import livroslembrete.com.br.livroslembrete.dao.LembreteDAO;
+import livroslembrete.com.br.livroslembrete.domain.DiasSemana;
+import livroslembrete.com.br.livroslembrete.utils.DespertadorUtil;
 import livroslembrete.com.br.livroslembrete.view.fragments.dialog.CriarLembreteDialog;
 import livroslembrete.com.br.livroslembrete.model.LivroDetalhesModel;
 import livroslembrete.com.br.livroslembrete.domain.Lembrete;
@@ -42,7 +46,7 @@ public class LivroDetalhesPresenter extends BasePresenter {
 
         CriarLembreteDialog.show(supportFragmentManager, lembrete, new CriarLembreteDialog.Callback() {
             @Override
-            public void callback(Calendar dataHora) {
+            public void callback(Calendar dataHora, List<DiasSemana> diasSemanaSelecionados) {
                 LembreteDAO dao = null;
                 try {
                     dao = new LembreteDAO(Application.getInstance().getDataBaseHelper().getConnectionSource());
@@ -53,14 +57,13 @@ public class LivroDetalhesPresenter extends BasePresenter {
                     lembrete.setNomeLivro(livro.getNome());
                     lembrete.setTotalPaginasLivro(livro.getTotalPaginas());
                     lembrete.setUrlImagemLivro(livro.getUrlImagem());
-                    lembrete.setDiasSemana(new String[]{});
+                    lembrete.setDiasSemana(diasSemanaSelecionados);
+
                     dao.save(lembrete);
+                    lembrete = dao.getById(lembrete.getIdLivro());
 
-                    view.showToast(new SimpleDateFormat("HH:mm - dd/MM/yyyy",
-                            Locale.getDefault()).format(lembrete.getDataHora().getTime()));
+                    new DespertadorUtil(getContext()).criarAlarm(lembrete, lembrete.getDiasSemana());
 
-                    AlarmLembreteUtil alarm = new AlarmLembreteUtil(getContext());
-                    alarm.agendarAlarm(lembrete.getIdLivro(), lembrete.getDataHora().getTimeInMillis());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

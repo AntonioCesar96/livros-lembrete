@@ -43,7 +43,8 @@ public class LembreteAdapter extends RecyclerView.Adapter<LembreteAdapter.Lembre
     @Override
     public void onBindViewHolder(final LembretesViewHolder holder, final int position) {
         Lembrete lembrete = this.lembretes.get(position);
-        String horario = new SimpleDateFormat("HH:mm - dd/MM/yyyy", Locale.getDefault()).format(lembrete.getDataHora().getTime());
+
+        String horario = new SimpleDateFormat("EEE',' dd 'de' MMMM - HH:mm", Locale.getDefault()).format(lembrete.getDataHora().getTime());
 
         holder.txtNome.setText(lembrete.getNomeLivro());
         holder.txtHorario.setText(horario);

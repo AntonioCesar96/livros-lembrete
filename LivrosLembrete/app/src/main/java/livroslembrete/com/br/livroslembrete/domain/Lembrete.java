@@ -1,11 +1,16 @@
 package livroslembrete.com.br.livroslembrete.domain;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 
 @DatabaseTable(tableName = "lembrete")
 public class Lembrete implements Serializable {
@@ -26,8 +31,7 @@ public class Lembrete implements Serializable {
     @DatabaseField(dataType = DataType.SERIALIZABLE)
     private Calendar dataHora;
 
-    @DatabaseField(dataType = DataType.SERIALIZABLE)
-    private String[] diasSemana;
+    private List<DiasSemana> diasSemana;
 
     public Long getIdLivro() {
         return idLivro;
@@ -69,11 +73,11 @@ public class Lembrete implements Serializable {
         this.dataHora = dataHora;
     }
 
-    public String[] getDiasSemana() {
+    public List<DiasSemana> getDiasSemana() {
         return diasSemana;
     }
 
-    public void setDiasSemana(String[] diasSemana) {
+    public void setDiasSemana(List<DiasSemana> diasSemana) {
         this.diasSemana = diasSemana;
     }
 }

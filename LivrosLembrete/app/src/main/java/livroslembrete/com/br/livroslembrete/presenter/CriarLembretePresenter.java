@@ -2,9 +2,12 @@ package livroslembrete.com.br.livroslembrete.presenter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
+import livroslembrete.com.br.livroslembrete.domain.DiasSemana;
 import livroslembrete.com.br.livroslembrete.domain.Lembrete;
 import livroslembrete.com.br.livroslembrete.view.CriarLembreteView;
 import livroslembrete.com.br.livroslembrete.view.fragments.dialog.CriarLembreteDialog;
@@ -48,7 +51,7 @@ public class CriarLembretePresenter {
         view.updateHora(timeFormatter.format(dataHora.getTime()));
     }
 
-    public void salvarLembrete(String data, String hora) {
+    public void salvarLembrete(String hora, List<DiasSemana> diasSemana) {
         try {
             new SimpleDateFormat("HH:mm", Locale.getDefault()).parse(hora);
         } catch (ParseException pe) {
@@ -56,15 +59,8 @@ public class CriarLembretePresenter {
             return;
         }
 
-        try {
-            new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(data);
-        } catch (ParseException pe) {
-            view.showToast("Selecione uma data");
-            return;
-        }
-
         if (callback != null) {
-            callback.callback(dataHora);
+            callback.callback(dataHora, diasSemana);
         }
         view.dismiss();
     }
