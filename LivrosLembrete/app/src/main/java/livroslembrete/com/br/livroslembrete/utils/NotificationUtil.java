@@ -1,6 +1,7 @@
 package livroslembrete.com.br.livroslembrete.utils;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -13,14 +14,24 @@ public class NotificationUtil {
     private static final String TAG = "TAG";
 
     public static void create(Context context, int id, Intent intent, int smallIcon, String contentTitle, String contentText) {
-        NotificationManager manager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder builder = null;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel notificationChannel = new NotificationChannel("ID", "Name", importance);
+            notificationManager.createNotificationChannel(notificationChannel);
+            builder = new NotificationCompat.Builder(context, notificationChannel.getId());
+        } else {
+            builder = new NotificationCompat.Builder(context);
+        }
 
         // Intent para disparar o broadcast
         PendingIntent p = PendingIntent.getActivity(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Cria a notification
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+        builder = builder
                 .setContentIntent(p)
                 .setContentTitle(contentTitle)
                 .setContentText(contentText)
@@ -29,7 +40,7 @@ public class NotificationUtil {
 
         // Dispara a notification
         Notification n = builder.build();
-        manager.notify(id, n);
+        notificationManager.notify(id, n);
 
         Log.d(TAG, "Notification criada com sucesso");
     }
