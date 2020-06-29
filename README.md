@@ -50,6 +50,7 @@ Se você deseja testar o aplicativo, o instalador esta listado abaixo:
 
 ## Construído com
 
+- [Heroku](https://dashboard.heroku.com/) - Heroku
 - [Android](https://developer.android.com/?hl=pt-br) - Android
 - [PostgreSQL](https://www.postgresql.org/) - Banco de dados relacional de código aberto
 - [Spring Boot](https://spring.io/projects/spring-boot) - Framework Spring 
