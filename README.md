@@ -22,7 +22,7 @@ Se você deseja testar o aplicativo, o instalador esta listado abaixo:
 
 ## Funcionalidades
 
-- Criar uma conta pessoal onde ficara salvo os seus livros e lembretes.
+- Criar uma conta pessoal onde ficará salvo os seus livros e lembretes.
     Se você logar no aplicativo com sua conta em outro celular seram listados os livros da sua conta.
 
 - Tela de autenticação.
@@ -46,7 +46,7 @@ Se você deseja testar o aplicativo, o instalador esta listado abaixo:
 - Listagem dos lembretes criados.
     Mostrando o próximo horário que você será avisado.
 
-- Dizer que a leitura foi completada.
+- Dizer que a leitura foi finalizada.
 
 ## Construído com
 
