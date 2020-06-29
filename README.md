@@ -18,7 +18,7 @@ LinkedIn: [LinkedIn](https://www.linkedin.com/in/antonio-cesar-9a78a7ba/).
 
 Se você deseja testar o aplicativo, o instalador esta listado abaixo:
 
-[Android .apk installer](https://drive.google.com/file/d/1wAH1HWzgKP6gBq8boZl2FL24HHhcrP6Q/view?usp=sharing)
+[Instalador Android .apk](https://drive.google.com/file/d/1wAH1HWzgKP6gBq8boZl2FL24HHhcrP6Q/view?usp=sharing)
 
 ## Funcionalidades
 
@@ -55,7 +55,5 @@ Se você deseja testar o aplicativo, o instalador esta listado abaixo:
 - [Spring Boot](https://spring.io/projects/spring-boot) - Framework Spring 
 
 ## Licença
-
-https://github.com/AntonioCesar96/livros-lembrete/blob/master/screenshots.jpg)
 
 Este projeto está licenciado sob a licença MIT - consulte o arquivo [LICENSE.md](https://github.com/AntonioCesar96/livros-lembrete/blob/master/LICENSE.md) para obter detalhes.
